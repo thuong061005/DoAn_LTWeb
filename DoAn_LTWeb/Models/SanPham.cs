@@ -19,6 +19,7 @@ namespace DoAn_LTWeb.Models
             this.GioHangs = new HashSet<GioHang>();
             this.PhanHois = new HashSet<PhanHoi>();
             this.SuKiens = new HashSet<SuKien>();
+            this.CTHDs = new HashSet<CTHD>();
         }
     
         public int MaSP { get; set; }
@@ -33,5 +34,6 @@ namespace DoAn_LTWeb.Models
         public virtual ICollection<GioHang> GioHangs { get; set; }
         public virtual ICollection<PhanHoi> PhanHois { get; set; }
         public virtual ICollection<SuKien> SuKiens { get; set; }
+        public virtual ICollection<CTHD> CTHDs { get; set; }
     }
 }

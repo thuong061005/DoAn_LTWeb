@@ -26,7 +26,7 @@ namespace DoAn_LTWeb.Models
         public Nullable<decimal> VanChuyen { get; set; }
         public Nullable<decimal> ThanhTien { get; set; }
     
-        public virtual ICollection<CTHD> CTHDs { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<CTHD> CTHDs { get; set; }
     }
 }

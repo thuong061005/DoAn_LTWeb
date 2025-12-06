@@ -96,13 +96,13 @@
                                     @Html.DisplayFor(modelItem => item.SoLuong)
                                 </td>
                                 <td class="text-center">
-                                    <a href="@Url.Action("Edit", new { id = item.MaSP })" class="btn btn-sm btn-primary mb-1">
+                                    <a href="@Url.Action("CapNhat_SanPham", new { id = item.MaSP })" class="btn btn-sm btn-primary mb-1">
                                         <i class="fas fa-edit"></i> Sửa
                                     </a>
-                                    <a href="@Url.Action("Details", new { id = item.MaSP })" class="btn btn-sm btn-info mb-1">
+                                    <a href="@Url.Action("ChiTietSanPham", new { id = item.MaSP })" class="btn btn-sm btn-info mb-1">
                                         <i class="fas fa-info-circle"></i> Chi tiết
                                     </a>
-                                    <a href="@Url.Action("Delete", new { id = item.MaSP })" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
+                                    <a href="@Url.Action("XoaSAnPham", new { id = item.MaSP })" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
                                         <i class="fas fa-trash-alt"></i> Xóa
                                     </a>
                                 </td>
@@ -116,6 +116,6 @@
         </div>
     </div>
 </div>
-<a href="@Url.Action("Create")" id="fab-add-product" class="btn btn-dark" title="Thêm Sản Phẩm Mới">
+<a href="@Url.Action("Them_SanPham")" id="fab-add-product" class="btn btn-dark" title="Thêm Sản Phẩm Mới">
     <i class="fas fa-plus fa-2x"></i>
 </a>

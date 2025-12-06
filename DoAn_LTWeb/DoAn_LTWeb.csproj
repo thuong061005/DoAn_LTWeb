@@ -305,6 +305,11 @@
     <Content Include="Views\Home\View_TrangChu.cshtml" />
     <Content Include="Views\SanPham\CapNhat_SanPham.cshtml" />
     <Content Include="Views\GioHang\Index.cshtml" />
+    <Content Include="Views\SanPham\ChiTietSanPham.cshtml" />
+    <Content Include="Views\GioHang\ThanhToan.cshtml" />
+    <Content Include="Views\GioHang\DatHangThanhCong.cshtml" />
+    <Content Include="Views\Users\LichSuDonHang.cshtml" />
+    <Content Include="Views\Users\ChiTietDonHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

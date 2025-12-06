@@ -1,0 +1,152 @@
+﻿@model DoAn_LTWeb.Models.SanPham
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Dùng layout của bạn
+    var userLoggedIn = Session["ID"] != null;
+}
+
+<style>
+    /* CSS cho sao đánh giá */
+    .rating-css div {
+        color: #ffe400;
+        font-size: 30px;
+        font-family: sans-serif;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 20px 0;
+    }
+
+    .rating-css input {
+        display: none;
+    }
+
+        .rating-css input + label {
+            font-size: 40px;
+            text-shadow: 1px 1px 0 #8f8420;
+            cursor: pointer;
+        }
+
+        .rating-css input:checked + label ~ label {
+            color: #b4afaf;
+        }
+
+    .rating-css label:active {
+        transform: scale(0.8);
+        transition: 0.3s all;
+    }
+
+    /* CSS cho avatar trong comment */
+    .comment-avatar {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <img src="~/Content/Images/@Model.HinhAnh" class="img-fluid rounded shadow" alt="@Model.TenSP" />
+        </div>
+        <div class="col-md-6">
+            <h2 class="fw-bold">@Model.TenSP</h2>
+            <h3 class="text-danger my-3">@String.Format("{0:N0}₫", Model.Gia)</h3>
+            <p>@Model.MoTa</p>
+            <p><strong>Danh mục:</strong> @(Model.DanhMuc != null ? Model.DanhMuc.TenLoai : "Chưa cập nhật")</p>
+            <p><strong>Tình trạng:</strong> @(Model.SoLuong > 0 ? "Còn hàng" : "Hết hàng")</p>
+
+            <button class="btn btn-primary btn-lg mt-3"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-4">Đánh giá & Phản hồi (@(Model.PhanHois != null ? Model.PhanHois.Count : 0))</h3>
+
+            @if (userLoggedIn)
+            {
+                <div class="card mb-4 shadow-sm bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Viết đánh giá của bạn</h5>
+                        <form action="@Url.Action("GuiPhanHoi", "SanPham")" method="post">
+                            <input type="hidden" name="MaSP" value="@Model.MaSP" />
+
+                            <div class="rating-css text-start py-2">
+                                <div class="star-icon">
+                                    <input type="radio" value="5" name="DanhGia" id="rating5" checked>
+                                    <label for="rating5" class="fa fa-star"></label>
+                                    <input type="radio" value="4" name="DanhGia" id="rating4">
+                                    <label for="rating4" class="fa fa-star"></label>
+                                    <input type="radio" value="3" name="DanhGia" id="rating3">
+                                    <label for="rating3" class="fa fa-star"></label>
+                                    <input type="radio" value="2" name="DanhGia" id="rating2">
+                                    <label for="rating2" class="fa fa-star"></label>
+                                    <input type="radio" value="1" name="DanhGia" id="rating1">
+                                    <label for="rating1" class="fa fa-star"></label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <textarea class="form-control" name="NoiDung" rows="3" placeholder="Chia sẻ cảm nhận của bạn về sản phẩm..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Gửi đánh giá</button>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    Vui lòng <a href="@Url.Action("DangNhap", "Login")">đăng nhập</a> để viết đánh giá.
+                </div>
+            }
+
+            <div class="comments-list">
+                @if (Model.PhanHois != null && Model.PhanHois.Count > 0)
+                {
+                    foreach (var ph in Model.PhanHois.OrderByDescending(x => x.ID)) // Sắp xếp mới nhất lên đầu (nếu có cột ngày thì dùng ngày)
+                    {
+                        <div class="card mb-3 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex flex-start">
+                                    <img class="comment-avatar shadow-1-strong me-3"
+                                         src="~/Content/Images/@(ph.User != null ? ph.User.Anh : "user.png")"
+                                         alt="avatar"
+                                         onerror="this.src='https://via.placeholder.com/50'" />
+                                    <div class="w-100">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="fw-bold mb-0">
+                                                @(ph.User != null ? ph.User.HoTen : "Người dùng ẩn danh")
+                                            </h6>
+                                            <div class="text-warning small">
+                                                @for (int i = 0; i < ph.DanhGia; i++)
+                                                {
+                                                    <i class="fas fa-star"></i>
+                                                }
+                                                @for (int i = 0; i < (5 - ph.DanhGia); i++)
+                                                {
+                                                    <i class="far fa-star"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <p class="mb-0 text-secondary">
+                                            @ph.NoiDung
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted text-center">Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

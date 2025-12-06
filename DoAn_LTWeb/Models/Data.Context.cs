@@ -25,7 +25,6 @@ namespace DoAn_LTWeb.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<CTHD> CTHDs { get; set; }
         public DbSet<DanhMuc> DanhMucs { get; set; }
         public DbSet<GioHang> GioHangs { get; set; }
         public DbSet<HoaDon> HoaDons { get; set; }
@@ -34,5 +33,6 @@ namespace DoAn_LTWeb.Models
         public DbSet<SuKien> SuKiens { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<CTHD> CTHDs { get; set; }
     }
 }

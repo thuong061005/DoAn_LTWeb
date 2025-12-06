@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\MyStudy\DEV Web\DoAn\DoAn_LTWeb\DoAn_LTWeb\Models\Data.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\ASPweb\DoAn_LTWeb (1)\DoAn_LTWeb\DoAn_LTWeb\Models\Data.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -86,11 +86,55 @@ namespace DoAn_LTWeb.Controllers
             var X = db.SanPhams.FirstOrDefault(x => x.MaSP == id);
             return View(X);
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult XuLi_ChinhSua_SanPham(SanPham sp, HttpPostedFileBase img)
-        //{
+        // 1. ACTION HIỂN THỊ CHI TIẾT SẢN PHẨM & PHẢN HỒI
+        public ActionResult ChiTietSanPham(int id)
+        {
+            // Tìm sản phẩm theo ID, đồng thời load luôn danh sách PhanHois và thông tin Users của phản hồi đó
+            // Lưu ý: Cần đảm bảo trong Model SanPham có quan hệ với PhanHoi, và PhanHoi có quan hệ với Users
+            var sp = db.SanPhams.Include("PhanHois.User").FirstOrDefault(x => x.MaSP == id);
 
-        //}
+            if (sp == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Đếm số lượng đánh giá để hiển thị (Optional)
+            ViewBag.SoLuongDanhGia = sp.PhanHois.Count;
+
+            return View(sp);
+        }
+
+        // 2. ACTION XỬ LÝ GỬI PHẢN HỒI (POST)
+        [HttpPost]
+        public ActionResult GuiPhanHoi(int MaSP, string NoiDung, int DanhGia)
+        {
+            // Kiểm tra đăng nhập
+            if (Session["ID"] == null)
+            {
+                // Lưu URL hiện tại để quay lại sau khi đăng nhập (nếu muốn)
+                return RedirectToAction("DangNhap", "Login");
+            }
+
+            try
+            {
+                PhanHoi ph = new PhanHoi();
+                ph.MaSP = MaSP;
+                ph.ID = int.Parse(Session["ID"].ToString()); // Lấy ID user từ Session
+                ph.NoiDung = NoiDung;
+                ph.DanhGia = DanhGia; // Số sao (1-5)
+                                      // ph.NgayGui = DateTime.Now; // Nếu trong DB có cột ngày gửi
+
+                db.PhanHois.Add(ph);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                TempData["Error"] = "Có lỗi xảy ra khi gửi đánh giá.";
+            }
+
+            // Quay lại trang chi tiết sản phẩm
+            return RedirectToAction("ChiTietSanPham", new { id = MaSP });
+        }
     }
 }

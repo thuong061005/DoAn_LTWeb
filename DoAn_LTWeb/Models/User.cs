@@ -16,7 +16,6 @@ namespace DoAn_LTWeb.Models
     {
         public User()
         {
-            this.CTHDs = new HashSet<CTHD>();
             this.GioHangs = new HashSet<GioHang>();
             this.HoaDons = new HashSet<HoaDon>();
             this.PhanHois = new HashSet<PhanHoi>();
@@ -32,7 +31,6 @@ namespace DoAn_LTWeb.Models
         public string VaiTro { get; set; }
         public string Anh { get; set; }
     
-        public virtual ICollection<CTHD> CTHDs { get; set; }
         public virtual ICollection<GioHang> GioHangs { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
         public virtual ICollection<PhanHoi> PhanHois { get; set; }
