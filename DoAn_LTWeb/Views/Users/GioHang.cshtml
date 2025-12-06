@@ -1,0 +1,101 @@
+﻿@model IEnumerable<DoAn_LTWeb.Models.SanPham>
+
+@{
+    ViewBag.Title = "GioHang";
+}
+
+<style>
+    /* CSS Tùy chỉnh (Giả định, có thể thay thế bằng class Bootstrap) */
+    .cart-table th, .cart-table td {
+        vertical-align: middle !important;
+        text-align: center;
+    }
+
+    .cart-item-image {
+        width: 80px; /* Kích thước hình ảnh nhỏ */
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .text-price {
+        font-weight: bold;
+        color: #dc3545; /* Màu đỏ nổi bật */
+    }
+</style>
+
+<h2>Giỏ Hàng Của Bạn</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning" role="alert">
+        Giỏ hàng của bạn hiện đang trống. <a href="@Url.Action("Index", "SanPham")">Tiếp tục mua sắm</a>
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover cart-table">
+        <thead>
+            <tr>
+                <th style="width: 10%">Hình Ảnh</th>
+                <th style="text-align: left;">Tên Sản Phẩm</th>
+                <th style="width: 15%">Giá Đơn Vị</th>
+                <th style="width: 15%">Số Lượng</th>
+                <th style="width: 15%">Thành Tiền</th>
+                <th style="width: 10%">Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/Images/@item.HinhAnh" alt="@item.TenSP" class="img-thumbnail cart-item-image" />
+                    </td>
+                    <td style="text-align: left;">
+                        <strong>@Html.DisplayFor(modelItem => item.TenSP)</strong>
+                        <br />
+                        <small>Danh mục: @Html.DisplayFor(modelItem => item.DanhMuc.TenLoai)</small>
+                    </td>
+                    <td>
+                        @* Định dạng giá tiền (Giả định là VND) *@
+                        <span class="text-price">@string.Format("{0:N0} VNĐ", item.Gia)</span>
+                    </td>
+                    <td>
+                        <input type="number" value="@item.SoLuong" min="1" max="100" class="form-control text-center" style="width: 80px; display: inline-block;" />
+                    </td>
+                    <td>
+                        @{
+                            decimal total = (decimal)item.Gia * (int)item.SoLuong;
+                        }
+                        <span class="text-price">@string.Format("{0:N0} VNĐ", total)</span>
+                    </td>
+                    <td>
+                        @* Nút Xóa/Cập nhật *@
+                        @Html.ActionLink("Xóa", "XoaKhoiGio", new { id = item.MaSP }, new { @class = "btn btn-danger btn-sm" })
+                        @* Nút Cập nhật (có thể ẩn nếu dùng AJAX) *@
+                        @* <button type="submit" class="btn btn-primary btn-sm mt-1">Cập nhật</button> *@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <h3>
+                Tổng Tiền:
+                <span class="text-price">
+                    @* Tính tổng tiền cả giỏ hàng (Bạn cần tính tổng này trong Controller/ViewModel thực tế) *@
+                    @* Giả định có biến ViewBag.TongTien *@
+                    @* @string.Format("{0:N0} VNĐ", ViewBag.TongTien) *@
+                    **[Tổng tiền Giỏ Hàng]**
+                </span>
+            </h3>
+            <p>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">← Tiếp tục mua sắm</a>
+                @* Nút Thanh toán *@
+                @Html.ActionLink("Tiến Hành Thanh Toán", "ThanhToan", null, new { @class = "btn btn-success btn-lg ml-2" })
+            </p>
+        </div>
+    </div>
+}

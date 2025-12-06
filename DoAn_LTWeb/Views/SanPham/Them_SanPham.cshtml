@@ -1,0 +1,78 @@
+﻿@model DoAn_LTWeb.Models.SanPham
+@using DoAn_LTWeb.Models;
+
+@{
+    ViewBag.Title = "Thêm Sản Phẩm Mới";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+
+                @* HEADER - Màu ĐEN *@
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="mb-0 py-2">
+                        <i class="fas fa-plus-circle me-2"></i> THÊM SẢN PHẨM MỚI
+                    </h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    @* QUAN TRỌNG: Thêm enctype="multipart/form-data" để hỗ trợ upload file *@
+                    @using (Html.BeginForm("XuLiThemSanPham", "SanPham", FormMethod.Post, new { @class = "row g-3", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "Vui lòng kiểm tra lại các lỗi sau:", new { @class = "alert alert-danger" })
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.TenSP, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.TenSP, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên Sản Phẩm" } })
+                            @Html.ValidationMessageFor(model => model.TenSP, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Gia, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control", type = "number", placeholder = "Giá Ban" } })
+                            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.SoLuong, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control", type = "number", placeholder = "Số Lượng Tồn Kho" } })
+                            @Html.ValidationMessageFor(model => model.SoLuong, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.MaDM, "Danh Mục", new { @class = "form-label" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.MaDM, ViewBag.MaDM as SelectList, "--- Chọn Danh Mục ---", new { @class = "form-select" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MaDM, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.HinhAnh, "Tải Hình Ảnh", new { @class = "form-label" })
+                            <input type="file" name="HinhAnhFile" id="HinhAnhFile" class="form-control" accept="image/*" />
+                            @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.MoTa, new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3, placeholder = "Mô tả chi tiết sản phẩm" })
+                            @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" value="Create" class="btn btn-dark btn-lg me-3 shadow-sm">
+                                <i class="fas fa-save me-1"></i> Thêm Sản Phẩm
+                            </button>
+                            @Html.ActionLink("XuLiThemSanPham", "SanPham", null, new { @class = "btn btn-outline-secondary btn-lg" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

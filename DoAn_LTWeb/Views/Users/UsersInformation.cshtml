@@ -1,0 +1,90 @@
+﻿@model DoAn_LTWeb.Models.User
+
+@{
+    ViewBag.Title = "Thông tin chi tiết người dùng";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                @* Card Header với tông màu ĐEN (bg-dark) *@
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="mb-0 py-2">
+                        <i class="fas fa-id-card me-2"></i> THÔNG TIN CHI TIẾT NGƯỜI DÙNG
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        @* Cột 1: Ảnh đại diện *@
+                        <div class="col-md-4 text-center mb-4">
+                            <h5 class="text-muted mb-3">Ảnh đại diện</h5>
+                            <div class="p-2 border border-secondary rounded-3 d-inline-block">
+                                @* Hiển thị ảnh (Giả định model.Anh là đường dẫn tương đối) *@
+                                @if (!string.IsNullOrEmpty(Model.Anh))
+                                {
+                                    <img src="@Url.Content(Model.Anh)"
+                                         alt="Ảnh đại diện"
+                                         class="img-fluid rounded-circle shadow"
+                                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #343a40;" />
+                                }
+                                else
+                                {
+                                    <i class="fas fa-user-circle fa-8x text-secondary"></i>
+                                }
+                            </div>
+                        </div>
+
+                        @* Cột 2: Danh sách thông tin *@
+                        <div class="col-md-8">
+                            <ul class="list-group list-group-flush border rounded">
+
+                                @* HoTen *@
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">@Html.DisplayNameFor(model => model.HoTen)</span>
+                                    <strong>@Html.DisplayFor(model => model.HoTen)</strong>
+                                </li>
+
+                                @* GioiTinh *@
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">@Html.DisplayNameFor(model => model.GioiTinh)</span>
+                                    <span>@Html.DisplayFor(model => model.GioiTinh)</span>
+                                </li>
+
+                                @* SDT *@
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">@Html.DisplayNameFor(model => model.SDT)</span>
+                                    <span>@Html.DisplayFor(model => model.SDT)</span>
+                                </li>
+
+                                @* Email *@
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">@Html.DisplayNameFor(model => model.Email)</span>
+                                    <span class="text-break">@Html.DisplayFor(model => model.Email)</span>
+                                </li>
+
+                                @* VaiTro *@
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">@Html.DisplayNameFor(model => model.VaiTro)</span>
+                                    <span class="badge bg-dark rounded-pill">@Html.DisplayFor(model => model.VaiTro)</span>
+                                </li>
+
+                                @* Mật khẩu (Chỉ hiển thị dấu *** vì đây là View Chi tiết) *@
+                                <!--<li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">@Html.DisplayNameFor(model => model.Password)</span>
+                                    <span class="text-secondary">********</span>
+                                </li>-->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                @* Card Footer cho các nút hành động *@
+                <div class="card-footer text-end">
+                    @Html.ActionLink("CHỈNH SỬA", "Edit", new { id = Model.ID }, new { @class = "btn btn-dark me-2 shadow-sm" })
+                    @Html.ActionLink("QUAY LẠI DANH SÁCH", "Index", null, new { @class = "btn btn-outline-secondary" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,212 @@
+﻿/* Màu Footer */
+.shopnow-footer {
+    background-color: #171D2B; /* Màu xanh đậm gần như đen */
+}
+
+/* Liên kết trong Footer */
+.footer-links a {
+    color: #a0a4ae; /* Màu xám nhạt cho liên kết */
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 2;
+}
+
+    .footer-links a:hover {
+        color: #ffffff;
+    }
+
+/* Banner Khuyến mãi */
+.promo-banner {
+    /* Thay thế URL_CUA_ANH_NEN_BANNER bằng đường dẫn ảnh thực tế của bạn */
+    background-image: url('URL_CUA_ANH_NEN_BANNER');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    min-height: 380px;
+    border-radius: 8px;
+    padding: 40px !important;
+    position: relative;
+    overflow: hidden; /* Cần thiết cho overlay */
+}
+
+    .promo-banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* Tạo hiệu ứng overlay màu xanh tím như trong ảnh */
+        background: linear-gradient(to right, rgba(29, 39, 102, 0.9), rgba(29, 39, 102, 0));
+        border-radius: 8px;
+        z-index: 1; /* Đảm bảo overlay nằm trên ảnh nền */
+    }
+
+    /* Đặt nội dung văn bản và nút lên trên overlay */
+    .promo-banner h3,
+    .promo-banner p,
+    .promo-banner .btn {
+        position: relative;
+        z-index: 2;
+    }
+
+/* Sản phẩm */
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+    .product-card:hover {
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    }
+
+    .product-card img {
+        /* Đảm bảo ảnh sản phẩm khớp với kích thước ô */
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+.product-badge {
+    padding: 0.25em 0.6em;
+    font-size: 0.75rem;
+    border-radius: 0 0 5px 0;
+    z-index: 10;
+}
+/* Màu nền chung */
+.shopnow-footer {
+    background-color: #1a1e27; /* Màu nền đen/xanh đậm */
+    color: #ffffff;
+    padding: 40px 0 10px; /* Padding trên và dưới */
+    font-family: Arial, sans-serif;
+}
+
+/* Phần nội dung chính (chứa 4 cột) */
+.footer-content {
+    max-width: 1200px; /* Giới hạn chiều rộng nội dung */
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between; /* Giãn cách các cột */
+    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+}
+
+/* Kiểu dáng chung cho các cột */
+.footer-column {
+    width: 25%; /* Mỗi cột chiếm 25% chiều rộng */
+    padding: 0 15px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+    /* Tiêu đề cột */
+    .footer-column h3 {
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+/* Cột ShopNow (chữ nhỏ hơn) */
+.shopnow-info p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #b0b4c0; /* Màu chữ hơi xám */
+}
+
+/* Danh sách liên kết */
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .footer-column ul li {
+        margin-bottom: 8px;
+    }
+
+/* Liên kết */
+.footer-column a {
+    color: #b0b4c0; /* Màu chữ hơi xám */
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s;
+}
+
+    .footer-column a:hover {
+        color: #ffffff; /* Sáng hơn khi hover */
+    }
+
+/* Cột Liên hệ */
+.contact-info .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #b0b4c0;
+}
+
+    .contact-info .contact-item i {
+        margin-right: 10px;
+        width: 15px; /* Giúp các icon căn chỉnh thẳng hàng */
+        text-align: center;
+    }
+
+/* Icon mạng xã hội */
+.social-links {
+    margin-top: 15px;
+}
+
+.social-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #b0b4c0; /* Viền màu xám */
+    color: #b0b4c0;
+    margin-right: 8px;
+    border-radius: 50%; /* Hình tròn */
+    font-size: 14px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+    .social-icon:hover {
+        background-color: #3f4553;
+        border-color: #ffffff;
+        color: #ffffff;
+    }
+
+/* Phần bản quyền */
+.footer-bottom {
+    border-top: 1px solid #333940; /* Đường kẻ ngang */
+    text-align: center;
+    padding: 20px 0 0;
+    margin-top: 30px;
+}
+
+    .footer-bottom p {
+        font-size: 13px;
+        color: #b0b4c0;
+        margin: 0;
+    }
+
+/* Điều chỉnh responsive cho màn hình nhỏ hơn (ví dụ: máy tính bảng) */
+@media (max-width: 768px) {
+    .footer-column {
+        width: 50%; /* 2 cột mỗi hàng */
+    }
+
+    .footer-content {
+        justify-content: flex-start; /* Sắp xếp từ trái qua */
+    }
+}
+
+/* Điều chỉnh responsive cho màn hình điện thoại */
+@media (max-width: 480px) {
+    .footer-column {
+        width: 100%; /* 1 cột mỗi hàng */
+        padding: 0 15px;
+    }
+}

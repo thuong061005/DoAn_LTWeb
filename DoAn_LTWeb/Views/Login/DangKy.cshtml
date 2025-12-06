@@ -1,0 +1,103 @@
+﻿@model DoAn_LTWeb.Models.User
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @* Giảm chiều rộng container chính để form trông gọn hơn *@
+            <div class="card shadow-lg border-0">
+                @* Đổi màu nền Card Header sang màu ĐEN (bg-dark) *@
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="mb-0 py-2">
+                        <i class="fas fa-user-plus me-2"></i> ĐĂNG KÝ TÀI KHOẢN MỚI
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("XuLiDangKy","Login", FormMethod.Post, new { @class = "row g-3" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "Vui lòng kiểm tra lại các lỗi sau:", new { @class = "alert alert-danger" })
+
+                        @* Sử dụng col-12 và form-control-sm cho các trường *@
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.UserName, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder = "Tên Đăng Nhập (Bắt buộc)" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control form-control-sm", type = "email", placeholder = "Địa chỉ Email (Bắt buộc)" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.Password, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-sm", type = "password", placeholder = "Mật khẩu (Bắt buộc)" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            <label for="rePassword" class="form-label">Nhập lại Mật khẩu</label>
+                            <input type="password" id="rePassword" name="rePassword" class="form-control form-control-sm" placeholder="Xác nhận Mật khẩu" required />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        @*<hr class="mt-4 mb-3" />*@
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.HoTen, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder = "Nhập Họ Tên" } })
+                            @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.GioiTinh, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.GioiTinh, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder = "Giới Tính" } })
+                            @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-12">
+                            @Html.LabelFor(model => model.SDT, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder = "Số Điện Thoại" } })
+                            @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!--<div class="col-12">
+                            @Html.LabelFor(model => model.Anh, new { @class = "form-label" })-->
+
+                            @* Thay thế @Html.EditorFor bằng input type="file" *@
+                            <!--<input type="file"
+                                   id="@Html.IdFor(model => model.Anh)"
+                                   name="@Html.NameFor(model => model.Anh)"
+                                   class="form-control form-control-sm"
+                                   accept="image/*"--> @* Chỉ chấp nhận các file ảnh *@ <!--/>-->
+
+                            @* Vẫn giữ Validation Message cho trường này *@
+                            <!--@Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
+                        </div>-->
+
+                        @*<div class="col-12" style="display:none;">
+                            @Html.LabelFor(model => model.VaiTro, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.VaiTro, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        </div>*@
+
+                        <div class="col-12 mt-4 text-center">
+                            @* Nút Đăng Ký chuyển về màu ĐEN (btn-dark) *@
+                            <button type="submit" class="btn btn-dark btn-lg me-3 shadow-sm">
+                                <i class="fas fa-sign-in-alt me-1"></i> Đăng Ký
+                            </button>
+                            @* Nút Quay lại dùng màu xám (btn-outline-secondary) *@
+                            @Html.ActionLink("Quay Lại Trang Chủ", "View_TrangChu", "Home", null, new { @class = "btn btn-outline-secondary btn-lg" })
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p class="text-muted">Đã có tài khoản? @Html.ActionLink("DangNhap", "Login", null, new { @class = "text-dark" })</p>
+            </div>
+        </div>
+    </div>
+</div>
