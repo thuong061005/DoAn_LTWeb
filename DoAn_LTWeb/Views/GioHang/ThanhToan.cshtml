@@ -1,0 +1,95 @@
+﻿@model List<DoAn_LTWeb.Models.GioHang>
+@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = ViewBag.User as DoAn_LTWeb.Models.User;
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-7">
+            <h4 class="mb-3 fw-bold text-uppercase">Thông tin giao hàng</h4>
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+
+            <form action="@Url.Action("DatHang", "GioHang")" method="post" id="paymentForm">
+                <div class="mb-3">
+                    <label class="form-label">Họ tên người nhận</label>
+                    <input type="text" class="form-control" value="@user.HoTen" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" value="@user.SDT" readonly style="background-color: #e9ecef;">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ nhận hàng <span class="text-danger">*</span></label>
+                    <input type="text" name="diaChiNhanHang" class="form-control" placeholder="Số nhà, đường, phường/xã, quận/huyện..." required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ghi chú đơn hàng (Tùy chọn)</label>
+                    <textarea name="ghiChu" class="form-control" rows="3" placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi giao..."></textarea>
+                </div>
+
+                <hr class="my-4">
+
+                <h4 class="mb-3 fw-bold">Phương thức thanh toán</h4>
+                <div class="my-3">
+                    <div class="form-check">
+                        <input id="cod" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                        <label class="form-check-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="banking" name="paymentMethod" type="radio" class="form-check-input" disabled>
+                        <label class="form-check-label text-muted" for="banking">Chuyển khoản ngân hàng (Đang bảo trì)</label>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <button class="btn btn-primary btn-lg w-100 py-3" type="submit">XÁC NHẬN ĐẶT HÀNG</button>
+            </form>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card bg-light border-0 rounded-3 shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary fw-bold">Đơn hàng của bạn</span>
+                        <span class="badge bg-primary rounded-pill">@Model.Count</span>
+                    </h4>
+
+                    <ul class="list-group mb-3">
+                        @foreach (var item in Model)
+                        {
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">@item.SanPham.TenSP</h6>
+                                    <small class="text-muted">Số lượng: @item.SoLuong</small>
+                                </div>
+                                <span class="text-muted">@string.Format("{0:N0}₫", item.ThanhTien)</span>
+                            </li>
+                        }
+
+                        <li class="list-group-item d-flex justify-content-between bg-white">
+                            <span>Tạm tính (VNĐ)</span>
+                            <strong>@string.Format("{0:N0}₫", ViewBag.TongTien)</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-white">
+                            <span>Phí vận chuyển</span>
+                            <span class="text-success">30,000₫</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-light border-top border-2">
+                            <span class="fw-bold fs-5">Tổng cộng</span>
+                            <strong class="text-danger fs-5">@string.Format("{0:N0}₫", ViewBag.TongTien + 30000)</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

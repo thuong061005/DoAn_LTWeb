@@ -100,5 +100,112 @@ namespace DoAn_LTWeb.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        // 5. Hiển thị trang xác nhận thanh toán
+        public ActionResult ThanhToan()
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("DangNhap", "Login");
+            }
+
+            int userID = int.Parse(Session["ID"].ToString());
+
+            // Lấy thông tin giỏ hàng để hiển thị lại cho user kiểm tra
+            var listGioHang = db.GioHangs.Where(gh => gh.ID == userID).ToList();
+
+            if (listGioHang.Count == 0)
+            {
+                return RedirectToAction("Index"); // Giỏ hàng trống thì quay lại
+            }
+
+            // Lấy thông tin người dùng để điền sẵn vào form
+            var user = db.Users.Find(userID);
+            ViewBag.User = user;
+
+            // Tính tổng tiền
+            ViewBag.TongTien = listGioHang.Sum(x => x.ThanhTien);
+
+            return View(listGioHang);
+        }
+
+        // 6. Xử lý đặt hàng (POST)
+        [HttpPost]
+        public ActionResult DatHang(string diaChiNhanHang, string ghiChu)
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("DangNhap", "Login");
+            }
+
+            int userID = int.Parse(Session["ID"].ToString());
+            var listGioHang = db.GioHangs.Where(gh => gh.ID == userID).ToList();
+
+            if (listGioHang.Count == 0) return RedirectToAction("Index");
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // A. Tạo Hóa Đơn (HoaDon)
+                    HoaDon hd = new HoaDon();
+                    hd.ID = userID;
+                    hd.NgayTao = DateTime.Now;
+                    hd.TongTien = listGioHang.Sum(x => x.ThanhTien);
+                    // hd.DiaChi = diaChiNhanHang; // Nếu DB có cột địa chỉ nhận hàng
+                    // hd.GhiChu = ghiChu;        // Nếu DB có cột ghi chú
+
+                    // Giả sử phí vận chuyển cố định hoặc tính toán logic khác
+                    hd.VanChuyen = 30000;
+                    hd.ThanhTien = hd.TongTien + hd.VanChuyen;
+
+                    db.HoaDons.Add(hd);
+                    db.SaveChanges(); // Lưu để lấy MaHD vừa tạo
+
+                    // B. Tạo Chi Tiết Hóa Đơn (CTHD)
+                    foreach (var item in listGioHang)
+                    {
+                        CTHD cthd = new CTHD();
+                        cthd.MaHD = hd.MaHD;
+                        cthd.MaSP = item.MaSP;
+
+                        cthd.SoLuong = item.SoLuong;
+                        cthd.ThanhTien = item.ThanhTien;
+
+                        db.CTHDs.Add(cthd);
+
+                        // C. Trừ tồn kho (Optional)
+                        var sp = db.SanPhams.Find(item.MaSP);
+                        if (sp != null)
+                        {
+                            sp.SoLuong -= item.SoLuong;
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    // D. Xóa Giỏ Hàng sau khi đặt thành công
+                    db.GioHangs.RemoveRange(listGioHang);
+                    db.SaveChanges();
+
+                    transaction.Commit();
+
+                    // Chuyển hướng đến trang thông báo thành công
+                    return RedirectToAction("DatHangThanhCong");
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    TempData["Error"] = "Có lỗi xảy ra khi đặt hàng: " + ex.Message;
+                    return RedirectToAction("ThanhToan");
+                }
+            }
+        }
+
+        // 7. Trang thông báo thành công
+        public ActionResult DatHangThanhCong()
+        {
+            return View();
+        }
     }
 }

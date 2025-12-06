@@ -15,11 +15,11 @@ namespace DoAn_LTWeb.Models
     public partial class CTHD
     {
         public int MaHD { get; set; }
-        public int ID { get; set; }
+        public int MaSP { get; set; }
         public Nullable<int> SoLuong { get; set; }
         public Nullable<decimal> ThanhTien { get; set; }
     
-        public virtual User User { get; set; }
         public virtual HoaDon HoaDon { get; set; }
+        public virtual SanPham SanPham { get; set; }
     }
 }
